@@ -3,6 +3,12 @@ import { useState, useRef } from "react";
 import Header from "./Header";
 import backgroundImg from "../Images/backgroundImg.jpg";
 import { checkValidData } from "../utils/Validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/Firebase";
+
 function Login() {
   const [signIn, setSignIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -16,15 +22,47 @@ function Login() {
   };
 
   const handleButtonClick = () => {
-    if (email.current && password.current && !signIn && name.current) {
-      const message = checkValidData(
+    const message = checkValidData(email.current.value, password.current.value);
+    console.log(email.current.value);
+    console.log(password.current.value);
+    setErrorMessage(message);
+    if (message) return;
+
+    if (!signIn) {
+      createUserWithEmailAndPassword(
+        auth,
         email.current.value,
-        password.current.value,
-        name.current ? name.current.value : ""
-      );
-      setErrorMessage(message);
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+          // ..
+        });
     } else {
-      setErrorMessage("Email and password cannot be empty");
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+        });
     }
   };
   return (
