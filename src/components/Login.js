@@ -6,10 +6,16 @@ import { checkValidData } from "../utils/Validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/Firebase";
-
+import { useNavigate } from "react-router-dom";
+import profileImg from "../Images/profile.jpg";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch;
   const [signIn, setSignIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -21,7 +27,8 @@ function Login() {
     setSignIn(!signIn);
   };
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (e) => {
+    e.preventDefault();
     const message = checkValidData(email.current.value, password.current.value);
     console.log(email.current.value);
     console.log(password.current.value);
@@ -37,14 +44,35 @@ function Login() {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: profileImg,
+          })
+            .then(() => {
+              const { uid, email, displayName, photoURL } = user.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+              navigate("/browse");
+              // ...
+            })
+            .catch((error) => {
+              setErrorMessage(error.message);
+              // ...
+            });
           console.log(user);
+          navigate("/browse");
           // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          setErrorMessage(errorCode + "-" + errorMessage);
-          // ..
+          setErrorMessage(`Error: ${errorCode} - ${errorMessage}`);
         });
     } else {
       signInWithEmailAndPassword(
@@ -56,12 +84,13 @@ function Login() {
           // Signed in
           const user = userCredential.user;
           console.log(user);
+          navigate("/browse");
           // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          setErrorMessage(errorCode + "-" + errorMessage);
+          setErrorMessage(`Error: ${errorCode} - ${errorMessage}`);
         });
     }
   };
@@ -134,9 +163,7 @@ function Login() {
               <input type="checkbox" className="mr-2" />
               Remember me
             </label>
-            <a href="#" className="text-gray-400 hover:underline">
-              Need help?
-            </a>
+            <p className="text-gray-400 hover:underline">Need help?</p>
           </div>
         </form>
         <div className="mt-8 text-gray-400 text-sm">
@@ -149,9 +176,7 @@ function Login() {
         </div>
         <p className="mt-4 text-xs text-gray-500">
           This page is protected by Google reCAPTCHA to ensure you're not a bot.
-          <a href="#" className="text-blue-500 hover:underline">
-            Learn more.
-          </a>
+          <p className="text-blue-500 hover:underline">Learn more.</p>
         </p>
       </div>
     </div>

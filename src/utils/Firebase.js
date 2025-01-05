@@ -11,7 +11,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAVTXPL23qz_FkauiPrW6ATsOzGi-ykdl0",
   authDomain: "netflix-gpt-a23b9.firebaseapp.com",
   projectId: "netflix-gpt-a23b9",
-  storageBucket: "netflix-gpt-a23b9.firebasestorage.app",
+  storageBucket: "netflix-gpt-a23b9.appspot.com",
   messagingSenderId: "79639601769",
   appId: "1:79639601769:web:7c939e966ea41feb9ab8f8",
   measurementId: "G-QM3HK10Q0N",
@@ -21,4 +21,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-export const auth = getAuth();
+export const auth = getAuth(app);
