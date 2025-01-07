@@ -9,12 +9,11 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/Firebase";
-import { useNavigate } from "react-router-dom";
+
 import profileImg from "../Images/profile.jpg";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 function Login() {
-  const navigate = useNavigate();
   const dispatch = useDispatch;
   const [signIn, setSignIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -58,15 +57,13 @@ function Login() {
                   photoURL: photoURL,
                 })
               );
-              navigate("/browse");
-              // ...
             })
             .catch((error) => {
               setErrorMessage(error.message);
               // ...
             });
           console.log(user);
-          navigate("/browse");
+
           // ...
         })
         .catch((error) => {
@@ -84,7 +81,7 @@ function Login() {
           // Signed in
           const user = userCredential.user;
           console.log(user);
-          navigate("/browse");
+
           // ...
         })
         .catch((error) => {
