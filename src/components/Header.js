@@ -4,12 +4,12 @@ import { CgUserlane } from "react-icons/cg";
 import { auth } from "../utils/Firebase";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+//import { useSelector } from "react-redux";
 
 const Header = () => {
   const navigate = useNavigate();
 
-  const user = useSelector((store) => store.user);
+  //const user = useSelector((store) => store.user);
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {

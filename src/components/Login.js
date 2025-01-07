@@ -49,7 +49,7 @@ function Login() {
             photoURL: profileImg,
           })
             .then(() => {
-              const { uid, email, displayName, photoURL } = user.currentUser;
+              const { uid, email, displayName, photoURL } = auth.currentUser;
               dispatch(
                 addUser({
                   uid: uid,
