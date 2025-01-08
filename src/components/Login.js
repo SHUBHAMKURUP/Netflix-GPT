@@ -14,7 +14,7 @@ import profileImg from "../Images/profile.jpg";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 function Login() {
-  const dispatch = useDispatch;
+  const dispatch = useDispatch();
   const [signIn, setSignIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -173,7 +173,7 @@ function Login() {
         </div>
         <p className="mt-4 text-xs text-gray-500">
           This page is protected by Google reCAPTCHA to ensure you're not a bot.
-          <p className="text-blue-500 hover:underline">Learn more.</p>
+          <span className="text-blue-500 hover:underline">Learn more.</span>
         </p>
       </div>
     </div>
