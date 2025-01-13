@@ -6,12 +6,12 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
-//import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const user = useSelector((store) => store.user);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -32,14 +32,9 @@ const Header = () => {
     return () => unsubscribe();
   }, []);
 
-  //const user = useSelector((store) => store.user);
   const handleSignOut = () => {
     signOut(auth)
-      .then(() => {
-        dispatch(removeUser());
-        navigate("/");
-        // Sign-out successful.
-      })
+      .then(() => {})
       .catch((error) => {
         navigate("/error");
         // An error happened.
