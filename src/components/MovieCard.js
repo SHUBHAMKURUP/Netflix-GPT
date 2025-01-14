@@ -11,7 +11,7 @@ const MovieCard = ({ title, posterPath }) => {
       <img
         alt={title || "movie poster"}
         src={IMG_CDN_URL + posterPath}
-        className="w-full h-full object-cover rounded-sm"
+        className="rounded-sm"
       />
     </div>
   );

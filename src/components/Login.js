@@ -28,8 +28,6 @@ function Login() {
   const handleButtonClick = (e) => {
     e.preventDefault();
     const message = checkValidData(email.current.value, password.current.value);
-    console.log(email.current.value);
-    console.log(password.current.value);
     setErrorMessage(message);
     if (message) return;
 

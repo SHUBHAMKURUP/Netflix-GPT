@@ -12,6 +12,20 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
+
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("Sign out successful");
+        dispatch(removeUser());
+        navigate("/");
+      })
+      .catch((error) => {
+        navigate("/error");
+        // An error happened.
+      });
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -32,14 +46,6 @@ const Header = () => {
     return () => unsubscribe();
   }, []);
 
-  const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {})
-      .catch((error) => {
-        navigate("/error");
-        // An error happened.
-      });
-  };
   return (
     <div className="relative">
       <div className="absolute top-0 left-0 px-8 py-2 bg-gradient-to-b from-black z-10">
