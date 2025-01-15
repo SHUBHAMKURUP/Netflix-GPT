@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { useSelector } from "react-redux";
-
+import { SiOpenai } from "react-icons/si";
+import { toggleGptSearchView } from "../utils/gptSlice";
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,9 +22,14 @@ const Header = () => {
         navigate("/");
       })
       .catch((error) => {
+        console.error("Sign out error:", error);
         navigate("/error");
-        // An error happened.
       });
+  };
+
+  const handleGptSearch = () => {
+    console.log("GPT Search clicked");
+    dispatch(toggleGptSearchView());
   };
 
   useEffect(() => {
@@ -52,12 +58,24 @@ const Header = () => {
         <img className="w-44" src={NetflixLogo} alt="Netflix Logo" />
       </div>
 
-      <div className="absolute flex top-0 right-0 p-4">
-        <CgUserlane className="bg-red-500 text-3xl" />
-        <button onClick={handleSignOut} className="ml-4 font-bold text-red-500">
-          Sign Out
-        </button>
-      </div>
+      {user && (
+        <div className="absolute flex top-0 right-0 p-4 items-center">
+          <button
+            onClick={handleGptSearch}
+            className="bg-red-500 mx-4 my-2 py-2 px-4 flex justify-center items-center rounded-md"
+          >
+            <SiOpenai className=" mr-2" />
+            GPT Search
+          </button>
+          <CgUserlane className="bg-red-500 text-3xl" />
+          <button
+            onClick={handleSignOut}
+            className="ml-4 font-bold text-red-500"
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
     </div>
   );
 };
