@@ -9,6 +9,7 @@ import { addUser, removeUser } from "../utils/userSlice";
 import { useSelector } from "react-redux";
 import { SiOpenai } from "react-icons/si";
 import { toggleGptSearchView } from "../utils/gptSlice";
+import { SUPPORTED_LANGUAGES } from "../utils/constants";
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -16,11 +17,7 @@ const Header = () => {
 
   const handleSignOut = () => {
     signOut(auth)
-      .then(() => {
-        console.log("Sign out successful");
-        dispatch(removeUser());
-        navigate("/");
-      })
+      .then(() => {})
       .catch((error) => {
         console.error("Sign out error:", error);
         navigate("/error");
@@ -58,24 +55,26 @@ const Header = () => {
         <img className="w-44" src={NetflixLogo} alt="Netflix Logo" />
       </div>
 
-      {user && (
-        <div className="absolute flex top-0 right-0 p-4 items-center">
-          <button
-            onClick={handleGptSearch}
-            className="bg-red-500 mx-4 my-2 py-2 px-4 flex justify-center items-center rounded-md"
-          >
-            <SiOpenai className=" mr-2" />
-            GPT Search
-          </button>
-          <CgUserlane className="bg-red-500 text-3xl" />
-          <button
-            onClick={handleSignOut}
-            className="ml-4 font-bold text-red-500"
-          >
-            Sign Out
-          </button>
-        </div>
-      )}
+      <div className="absolute flex top-0 right-0 p-4 items-center">
+        <select className="p-2 bg-gray-900 text-white rounded-md">
+          {SUPPORTED_LANGUAGES.map((lang) => (
+            <option key={lang.identifier} value={lang.identifier}>
+              {lang.name}
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={handleGptSearch}
+          className="bg-red-500 mx-4 my-2 py-2 px-4 flex justify-center items-center rounded-md"
+        >
+          <SiOpenai className=" mr-2" />
+          GPT Search
+        </button>
+        <CgUserlane className="bg-red-500 text-3xl" />
+        <button onClick={handleSignOut} className="ml-4 font-bold text-red-500">
+          Sign Out
+        </button>
+      </div>
     </div>
   );
 };

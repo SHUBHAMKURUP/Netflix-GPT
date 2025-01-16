@@ -12,6 +12,7 @@ import { auth } from "../utils/Firebase";
 
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+
 function Login() {
   const dispatch = useDispatch();
   const [signIn, setSignIn] = useState(true);
@@ -25,8 +26,7 @@ function Login() {
     setSignIn(!signIn);
   };
 
-  const handleButtonClick = (e) => {
-    e.preventDefault();
+  const handleButtonClick = () => {
     const message = checkValidData(email.current.value, password.current.value);
     setErrorMessage(message);
     if (message) return;
