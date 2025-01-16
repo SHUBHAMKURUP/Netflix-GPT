@@ -57,7 +57,6 @@ function Login() {
               setErrorMessage(error.message);
               // ...
             });
-          console.log(user);
 
           // ...
         })
@@ -75,7 +74,6 @@ function Login() {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
 
           // ...
         })

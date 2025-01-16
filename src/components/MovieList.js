@@ -3,7 +3,6 @@ import MovieCard from "./MovieCard";
 
 const MovieList = ({ title, movies }) => {
   if (!movies) {
-    console.log("Movies is null/undefined");
     return (
       <div className="p-6">
         <p>Loading...</p>

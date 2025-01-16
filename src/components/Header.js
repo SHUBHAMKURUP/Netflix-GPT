@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { SiOpenai } from "react-icons/si";
 import { toggleGptSearchView } from "../utils/gptSlice";
 import { SUPPORTED_LANGUAGES } from "../utils/constants";
+import { changeLanguage } from "../utils/configSlice";
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,8 +26,11 @@ const Header = () => {
   };
 
   const handleGptSearch = () => {
-    console.log("GPT Search clicked");
     dispatch(toggleGptSearchView());
+  };
+
+  const handleLanguageChange = (e) => {
+    dispatch(changeLanguage(e.target.value));
   };
 
   useEffect(() => {
@@ -50,13 +54,16 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="relative">
-      <div className="absolute top-0 left-0 px-8 py-2 bg-gradient-to-b from-black z-10">
+    <div className="relative z-20">
+      <div className="absolute top-0 left-0 px-8 py-2 bg-gradient-to-b from-black z-30">
         <img className="w-44" src={NetflixLogo} alt="Netflix Logo" />
       </div>
 
       <div className="absolute flex top-0 right-0 p-4 items-center">
-        <select className="p-2 bg-gray-900 text-white rounded-md">
+        <select
+          className="p-2 m-2 bg-gray-900 text-white rounded-md"
+          onChange={handleLanguageChange}
+        >
           {SUPPORTED_LANGUAGES.map((lang) => (
             <option key={lang.identifier} value={lang.identifier}>
               {lang.name}
