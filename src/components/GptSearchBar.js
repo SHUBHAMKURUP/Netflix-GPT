@@ -12,7 +12,8 @@ const GptSearchBar = () => {
       messages: [{ role: "user", content: searchText.current.value }],
       model: "gpt-3.5-turbo",
     });
-    console.log(gptResults.choices);
+    console.log(gptResults.choices?.[0]?.message?.content);
+    const gptMovies = gptResults.choices?.[0]?.message?.content.split(",");
   };
 
   return (
