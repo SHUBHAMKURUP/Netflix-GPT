@@ -1,11 +1,23 @@
 import React, { useRef } from "react";
 import lang from "../utils/languageConstants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import openai from "../utils/openai";
+import { API_OPTIONS } from "../utils/constants";
+import { addGptMovies } from "../utils/gptSlice";
 
 const GptSearchBar = () => {
   const langKey = useSelector((store) => store.config.lang);
   const searchText = useRef(null);
+  const dispatch = useDispatch();
+
+  const searchMovieTMDB = async (movie) => {
+    const data = await fetch(
+      `https://api.themoviedb.org/3/search/movie?query=${movie}&include_adult=false&language=en-US&page=1`,
+      API_OPTIONS
+    );
+    const json = await data.json();
+    return json.results;
+  };
 
   const handleGptSearchClick = async () => {
     const gptResults = await openai.chat.completions.create({
@@ -14,6 +26,13 @@ const GptSearchBar = () => {
     });
     console.log(gptResults.choices?.[0]?.message?.content);
     const gptMovies = gptResults.choices?.[0]?.message?.content.split(",");
+
+    const promises = gptMovies.map((movie) => searchMovieTMDB(movie));
+    const movieResults = await Promise.all(promises);
+
+    dispatch(
+      addGptMovies({ movieNames: gptMovies, movieResult: movieResults })
+    );
   };
 
   return (
