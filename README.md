@@ -1,6 +1,6 @@
 # Netflix GPT
 
-Netflix GPT is a Netflix clone application that integrates OpenAI's GPT-3.5 with the TMDB movie database to provide intelligent movie recommendations and search functionality. Users can sign up, sign in, and search for movies using natural language queries.
+Netflix GPT is a Netflix clone web application that integrates OpenAI's GPT-3.5 with the TMDB movie database to provide intelligent movie recommendations and search functionality. Users can sign up, sign in, and search for movies using natural language queries.
 
 ## Features
 
